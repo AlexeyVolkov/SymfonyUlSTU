@@ -1,0 +1,6 @@
+funboxtest_hellopage:
+    path:     /hello/{name}
+    defaults: { _controller: funboxtestBundle:Default:hello }
+funboxtest_homepage:
+    path:     /funbox/
+    defaults: { _controller: funboxtestBundle:Default:index }
