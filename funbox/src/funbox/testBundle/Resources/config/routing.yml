@@ -10,3 +10,9 @@ funboxtest_add:
 funboxtest_showAll:
     path:     /funbox/show/
     defaults: { _controller: funboxtestBundle:Default:showAll }
+funboxtest_adminPage:
+    path:     /funbox/admin/
+    defaults: { _controller: funboxtestBundle:Default:showAdmin }
+funboxtest_editAdminPage:
+    path:     /funbox/admin/edit/
+    defaults: { _controller: funboxtestBundle:Default:editAdmin }

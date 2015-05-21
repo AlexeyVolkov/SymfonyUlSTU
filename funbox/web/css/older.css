@@ -1,0 +1,13 @@
+.no-multiplebgs .tag, body.ie .tag{
+	background: #f2f2f2 url(../images/cat.png) no-repeat -30px 210px !important;
+	border-style: solid !important;
+}
+.no-multiplebgs .selected .tag, .no-multiplebgs .selectedHover .tag, .no-multiplebgs .defaultHover .tag{
+	background #f2f2f2 url(../images/cat.png) -30px 210px no-repeat !important;
+}
+.no-multiplebgs .disabled .tag, body.ie .disabled .tag{
+	background #f2f2f2 url(../images/cat-transparent.png) -30px 210px no-repeat !important;
+}
+.no-multiplebgs .default .tag, body.ie .default .tag{
+	border-color: #1698d9;
+}

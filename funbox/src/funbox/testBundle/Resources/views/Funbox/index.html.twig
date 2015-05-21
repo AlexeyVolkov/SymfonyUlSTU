@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html class="no-js">
+  <head>
+    <title>{% block title %}Fun-Box{% endblock %}</title>
+    <link href="{{ asset('css/styles.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/older.css') }}" rel="stylesheet" />
+    <meta charset="UTF-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1" name="viewport" />
+    <script src="{{ asset('js/modernizr.min.js') }}" type="text/javascript"></script>
+  </head>
+  <body>
+    <div class="header">
+      <h1>
+        Ты сегодня покормил кота?
+      </h1>
+    </div>
+    <div class="container">
+    {% for product in CatFood %}
+      <div class="shelf {{product.mode}}">
+        <div class="tag">
+          <h4 class="text">
+            Сказочное заморское яство
+          </h4>
+          <h4 class="default">
+            Сказочное заморское яство
+          </h4>
+          <h4 class="selectedHover">
+            Котэ не одобряет?
+          </h4>
+          <h2>
+            Нямушка
+          </h2>
+          <h3>
+            с {{product.topping}}
+          </h3>
+          <ul class="bonus">
+            {{product.description}}
+          </ul>
+          <div class="circle">
+            <span class="digit">{{product.quantity}}</span><span class="kilo">кг</span>
+          </div>
+        </div>
+        <p class="text">
+          {{product.footer}}
+        </p>
+      </div> 
+    {% endfor %}     
+    </div>
+    <script src="{{ asset('js/script.min-dist.j') }}s" type="text/javascript"></script>
+    <!--[if IE 9]>
+    <script type="text/javascript">
+      $("body").addClass("ie");
+    </script>
+    <![endif]-->
+  </body>
+</html>

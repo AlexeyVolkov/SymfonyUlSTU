@@ -40,12 +40,22 @@ class DefaultController extends Controller
     		->getRepository('funboxtestBundle:CatFood')
     		->findAll();
 
-    	return $this->render('funboxtestBundle:Default:cats.html.twig', array('CatFood' => $CatFood));
+    	return $this->render('funboxtestBundle:Funbox:index.html.twig', array('CatFood' => $CatFood));
 
     	if(!$CatFood){
     		throw $this->createNotFoundException(
     			'No CatFood found'
     			);
     	}
+    }
+
+    public function showAdmin()
+    {
+    	return $this->render('funboxtestBundle:Default:admin.html.twig');
+    }
+
+    public function editAdmin()
+    {
+    	return $this->render('funboxtestBundle:Default:editAdmin.html.twig');
     }
 }
