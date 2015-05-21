@@ -4,3 +4,9 @@ funboxtest_hellopage:
 funboxtest_homepage:
     path:     /funbox/
     defaults: { _controller: funboxtestBundle:Default:index }
+funboxtest_add:
+    path:     /funbox/create/
+    defaults: { _controller: funboxtestBundle:Default:create }
+funboxtest_showAll:
+    path:     /funbox/show/
+    defaults: { _controller: funboxtestBundle:Default:showAll }

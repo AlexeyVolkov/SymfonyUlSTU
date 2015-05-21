@@ -2,7 +2,8 @@
 
 namespace funbox\testBundle\Controller;
 
-use testBundle\Entity\CatFood
+use funbox\testBundle\Entity\CatFood;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
@@ -21,10 +22,30 @@ class DefaultController extends Controller
     	$CatFood = new CatFood();
     	$CatFood->setMode('default');
     	$CatFood->setTopping('курочкой');
-    	$CatFood->setDesc('Hen is awesome!');
+    	$CatFood->setDescription('Hen is awesome!');
     	$CatFood->setQuantity(54);
     	$CatFood->setFooter('Курочка прекрасна!');
 
-    	$em = $this->getDoctrine
+    	$em = $this->getDoctrine()->getManager();
+
+    	$em->persist($CatFood);
+    	$em->flush();
+
+    	return new Response('Created product id '.$CatFood->getId());
+    }
+
+    public function showAllAction()
+    {
+    	$CatFood = $this->getDoctrine()
+    		->getRepository('funboxtestBundle:CatFood')
+    		->findAll();
+
+    	return $this->render('funboxtestBundle:Default:cats.html.twig', array('CatFood' => $CatFood));
+
+    	if(!$CatFood){
+    		throw $this->createNotFoundException(
+    			'No CatFood found'
+    			);
+    	}
     }
 }

@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * CatFood
  *
- * @ORM\Table()
+ * @ORM\Table(name="catfood")
  * @ORM\Entity
  */
 class CatFood
@@ -38,9 +38,9 @@ class CatFood
     /**
      * @var string
      *
-     * @ORM\Column(name="desc", type="text")
+     * @ORM\Column(name="description", type="text")
      */
-    private $desc;
+    private $description;
 
     /**
      * @var integer
@@ -114,26 +114,26 @@ class CatFood
     }
 
     /**
-     * Set desc
+     * Set description
      *
-     * @param text $desc
+     * @param text $description
      * @return CatFood
      */
-    public function setDesc($desc)
+    public function setDescription($description)
     {
-        $this->desc = $desc;
+        $this->description = $description;
 
         return $this;
     }
 
     /**
-     * Get desc
+     * Get description
      *
      * @return text 
      */
-    public function getDesc()
+    public function getDescription()
     {
-        return $this->desc;
+        return $this->description;
     }
 
     /**
