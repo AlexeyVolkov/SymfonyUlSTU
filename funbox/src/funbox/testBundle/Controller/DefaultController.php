@@ -60,7 +60,7 @@ class DefaultController extends Controller
     	}
     }
 
-    public function showAdminAction()
+    public function showAdminAction(Request $request)
     {
         $CatFood = new CatFood();
         $CatFood->setMode('default');
@@ -69,16 +69,40 @@ class DefaultController extends Controller
         $CatFood->setQuantity(54);
         $CatFood->setFooter('Курочка прекрасна!');
 
-        $form = $this->createFormBuilder($CatFood)
+        $addForm = $this->createFormBuilder($CatFood)
             ->add('mode', 'text')
             ->add('topping', 'text')
-            ->add('description', 'text')
-            ->add('quantity', 'integer')
-            ->add('footer', 'text')
+            ->add('description', 'textarea')
+            ->add('quantity', 'number')
+            ->add('footer', 'textarea')
             ->add('save', 'submit', array('label' => 'Add Cat Food'))
             ->getForm();
 
-    	return $this->render('funboxtestBundle:Funbox:admin.html.twig', array('form' => $form->createView(),));
+    // submit
+        /*if('POST' === $request->getMethod()) {
+ 
+            if ($request->request->has('addForm')) {
+                
+            }
+ 
+            if ($request->request->has('removeForm')) {
+            // handle the second form
+            }
+        }*/
+        $addForm->handleRequest($request);
+        if($addForm->isValid()){
+            $em = $this->getDoctrine()->getEntityManager();
+     
+            $em->persist($CatFood);
+            $em->flush();
+     
+            return new Response('Created product id '.$CatFood->getId());
+        }
+        return $this->render('funboxtestBundle:Funbox:admin.html.twig', array(
+            'addForm' => $addForm->createView()/*,
+            'removeForm' => $removeForm->createView()*/
+            ));
+        
     }
 
     public function editAdmin()
