@@ -7,6 +7,9 @@ funboxtest_homepage:
 funboxtest_add:
     path:     /funbox/create/
     defaults: { _controller: funboxtestBundle:Default:create }
+funboxtest_delete:
+    path:     /funbox/delete/{id}
+    defaults: { _controller: funboxtestBundle:Default:delete }
 funboxtest_showAll:
     path:     /funbox/show/
     defaults: { _controller: funboxtestBundle:Default:showAll }
