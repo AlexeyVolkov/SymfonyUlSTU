@@ -11,58 +11,22 @@ class DefaultController extends Controller
 {
     public function indexAction()
     {
-        return $this->render('funboxtestBundle:Default:index.html.twig');
-    }
-    public function helloAction($name)
-    {
-        return $this->render('funboxtestBundle:Default:hello.html.twig', array('name' => $name));
+        $CatFood = $this->getDoctrine()
+            ->getRepository('funboxtestBundle:CatFood')
+            ->findAll();
+
+        return $this->render('funboxtestBundle:Funbox:index.html.twig', array('CatFood' => $CatFood));
+
+        if(!$CatFood){
+            throw $this->createNotFoundException(
+                'No CatFood found'
+                );
+        }
     }
 
-    public function createAction()
+    public function addAdminAction(Request $request)
     {
     	$CatFood = new CatFood();
-    	$CatFood->setMode('default');
-    	$CatFood->setTopping('курочкой');
-    	$CatFood->setDescription('Hen is awesome!');
-    	$CatFood->setQuantity(54);
-    	$CatFood->setFooter('Курочка прекрасна!');
-
-    	$em = $this->getDoctrine()->getManager();
-
-    	$em->persist($CatFood);
-    	$em->flush();
-
-    	return new Response('Created product id '.$CatFood->getId());
-    }
-
-    public function deleteAction($id)
-    {
-        $em = $this->getDoctrine()->getEntityManager();
-        $CatFood = $em->getRepository('funboxtestBundle:CatFood')->find($id);
-        $em->remove($CatFood);
-        $em->flush();
-
-        return new Response('CatFood id '.$id.' deleted');
-    }
-
-    public function showAllAction()
-    {
-    	$CatFood = $this->getDoctrine()
-    		->getRepository('funboxtestBundle:CatFood')
-    		->findAll();
-
-    	return $this->render('funboxtestBundle:Funbox:index.html.twig', array('CatFood' => $CatFood));
-
-    	if(!$CatFood){
-    		throw $this->createNotFoundException(
-    			'No CatFood found'
-    			);
-    	}
-    }
-
-    public function showAdminAction(Request $request)
-    {
-        $CatFood = new CatFood();
         $CatFood->setMode('default');
         $CatFood->setTopping('курочкой');
         $CatFood->setDescription('Hen is awesome!');
@@ -77,43 +41,7 @@ class DefaultController extends Controller
             ->add('footer', 'textarea')
             ->add('save', 'submit', array('label' => 'Добавить'))
             ->getForm();
-
-
-    // remove
-        $em = $this->getDoctrine()->getEntityManager();
-        $CatFood = $em->getRepository('funboxtestBundle:CatFood')->findAll();
-        foreach ($CatFood as $product) {
-            $idList[$product->getId()] = $product->getId();
-        }
-        
-        $removeForm = $this->get('form.factory')->createNamedBuilder('removeForm', 'form', $CatFood)
-            ->add('id', 'choice', array('label'=>'Нямушку №','choices' => $idList))
-            ->add('save', 'submit', array('label' => 'Удалить'))
-            ->getForm();
-
-    // edit
-        /*$em = $this->getDoctrine()->getEntityManager();
-        $CatFood = $em->getRepository('funboxtestBundle:CatFood')->findAll();
-        foreach ($CatFood as $product) {
-            $idList[$product->getId()] = $product->getId();
-        }
-        
-        $editForm = $this->get('form.factory')->createNamedBuilder('editForm', 'form', $CatFood)
-            ->add('id', 'choice', array('label'=>'Нямушку №','choices' => $idList))
-            ->add('save', 'submit', array('label' => 'Редактировать'))
-            ->getForm();*/
-        $em = $this->getDoctrine()->getEntityManager();
-        $editForm = $em->getRepository('funboxtestBundle:CatFood')->findAll();
-        foreach ($editForm as $product) {
-            $editFormProducts[] = array(
-                    'id' => $product->getId(),
-                    'mode' => $product->getMode(),
-                    'topping' => $product->getTopping(),
-                    'quantity' => $product->getQuantity()
-                );
-        }
-
-    // submit
+    //submit
         if($request->isMethod('POST')) {
         // add
             $addForm->submit($request->request->get($addForm->getName()));
@@ -123,45 +51,86 @@ class DefaultController extends Controller
                 $em->persist($CatFood);
                 $em->flush();
      
-                return new Response('Created product id '.$CatFood->getId());
+                return $this->redirectToRoute('funboxtest_adminPage');
             }
-        // remove
-            $removeForm->submit($request->request->get($removeForm->getName()));
-            if($removeForm->isValid()){
-                $em = $this->getDoctrine()->getEntityManager();
-                $id = $request->request->get($removeForm->getName())['id'];
-     
-                $CatFood = $em->getRepository('funboxtestBundle:CatFood')->find($id);
-                $em->remove($CatFood);
-                $em->flush();
-     
-                return new Response('Product #'.$id.' has been deleted');
-            }
-        // edit
+        }
+    //render
+        return $this->render('funboxtestBundle:Funbox:admin.html.twig', array(
+            'type' => 'add',
+            'addForm' => $addForm->createView()));
+    }
+
+    public function editAdminAction($id, Request $request)
+    {
+
+        $em = $this->getDoctrine()->getEntityManager();
+        $CatFood = new CatFood();
+        $CatFood = $em->getRepository('funboxtestBundle:CatFood')->find($id);
+
+        $editForm = $this->get('form.factory')->createNamedBuilder('editForm', 'form', $CatFood)
+            ->add('mode', 'text')
+            ->add('topping', 'text', array('label' => 'с'))
+            ->add('description', 'textarea')
+            ->add('quantity', 'number')
+            ->add('footer', 'textarea')
+            ->add('save', 'submit', array('label' => 'Изменить'))
+            ->getForm();
+
+    //submit
+        if($request->isMethod('POST')) {
+
             $editForm->submit($request->request->get($editForm->getName()));
+
             if($editForm->isValid()){
+                $data = $request->request->get($editForm->getName());
                 $em = $this->getDoctrine()->getEntityManager();
-                $id = $request->request->get($editForm->getName())['id'];
+                $CatFood->setMode($data['mode']);
+                $CatFood->setTopping($data['topping']);
+                $CatFood->setDescription($data['description']);
+                $CatFood->setQuantity($data['quantity']);
+                $CatFood->setFooter($data['footer']);
      
-                $CatFood = $em->getRepository('funboxtestBundle:CatFood')->find($id);
-                $em->remove($CatFood);
+                $em->persist($CatFood);
                 $em->flush();
      
-                return new Response('Product #'.$id.' has been deleted');
+                return $this->redirectToRoute('funboxtest_adminPage');
             }
+        }
+    //render
+        return $this->render('funboxtestBundle:Funbox:admin.html.twig', array(
+            'type' => 'edit',
+            'editForm' => $editForm->createView()));
+    }
+
+    public function deleteAdminAction($id)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $CatFood = $em->getRepository('funboxtestBundle:CatFood')->find($id);
+        $em->remove($CatFood);
+        $em->flush();
+
+        return $this->redirectToRoute('funboxtest_adminPage');
+    }
+
+    public function showAdminAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $editForm = $em->getRepository('funboxtestBundle:CatFood')->findAll();
+        foreach ($editForm as $product) {
+            $editFormProducts[] = array(
+                    'id' => $product->getId(),
+                    'mode' => $product->getMode(),
+                    'topping' => $product->getTopping(),
+                    'description' => $product->getDescription(),
+                    'quantity' => $product->getQuantity(),
+                    'footer' => $product->getFooter()
+                );
         }
 
     //render
         return $this->render('funboxtestBundle:Funbox:admin.html.twig', array(
-            'addForm' => $addForm->createView(),
-            'removeForm' => $removeForm->createView(),
+            'type' => 'show',
             'editFormProducts' => $editFormProducts
-            ));
-        
-    }
-
-    public function editAdmin()
-    {
-    	return $this->render('funboxtestBundle:Default:editAdmin.html.twig');
+            ));        
     }
 }

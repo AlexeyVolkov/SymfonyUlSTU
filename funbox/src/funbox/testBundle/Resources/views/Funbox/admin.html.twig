@@ -16,20 +16,49 @@
       </h1>
     </div>
     <div class="container">
-      {{ form_start(addForm) }}
-      {{ form_widget(addForm) }}
-      {{ form_end(addForm) }}
-      <br><hr><br>
-      {{ form_start(removeForm) }}
-      {{ form_widget(removeForm) }}
-      {{ form_end(removeForm) }}
-      <br><hr><br>
-      <ul>
-      {% for food in editFormProducts %}
-        <li>{{food.id}}</li>
-        <li>{{food.mode}}</li>
-        <li>{{food.topping}}</li>
-      {% endfor %}
+
+      {% if type == 'add' %}
+        {{ form_start(addForm) }}
+        {{ form_widget(addForm) }}
+        {{ form_end(addForm) }}
+      {% endif %}
+
+      {% if type == 'edit' %}
+        {{ form_start(editForm) }}
+        {{ form_widget(editForm) }}
+        {{ form_end(editForm) }}
+      {% endif %}
+
+      {% if type == 'delete' %}
+        {{ form_start(deleteForm) }}
+        {{ form_widget(deleteForm) }}
+        {{ form_end(deleteForm) }}
+      {% endif %}
+      
+      {% if type == 'show' %}
+        <a href="{{ path('funboxtest_addAdminPage') }}">Добавить</a>
+        <table style="background-color: white;">
+          <tr>
+            <th>№</th>
+            <th>Тип</th>
+            <th>Наполнитель</th>
+            <th>Описание</th>
+            <th>Количество</th>
+            <th>Подпись</th>
+            <th>Действия</th>
+          </tr>
+        {% for product in editFormProducts %}
+          <tr>
+            <td><a href="{{ path('funboxtest_editAdminPage', {id: product.id}) }}">{{ product.id }}</a></td>
+            <td>{{ product.mode }}</td>
+            <td>{{ product.topping }}</td>
+            <td>{{ product.description }}</td>
+            <td>{{ product.quantity }}</td>
+            <td>{{ product.footer }}</td>
+            <td><a href="{{ path('funboxtest_editAdminPage', {id: product.id}) }}">Изменить</a> / <a href="{{ path('funboxtest_deleteAdminPage', {id: product.id}) }}">Удалить</a></td>
+          </tr>
+        {% endfor %}
+      {% endif %}
     </div>
     <script src="{{ asset('js/script.min-dist.j') }}s" type="text/javascript"></script>
     <!--[if IE 9]>

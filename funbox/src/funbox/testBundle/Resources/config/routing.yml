@@ -1,21 +1,15 @@
-funboxtest_hellopage:
-    path:     /hello/{name}
-    defaults: { _controller: funboxtestBundle:Default:hello }
 funboxtest_homepage:
     path:     /funbox/
     defaults: { _controller: funboxtestBundle:Default:index }
-funboxtest_add:
-    path:     /funbox/create/
-    defaults: { _controller: funboxtestBundle:Default:create }
-funboxtest_delete:
-    path:     /funbox/delete/{id}
-    defaults: { _controller: funboxtestBundle:Default:delete }
-funboxtest_showAll:
-    path:     /funbox/show/
-    defaults: { _controller: funboxtestBundle:Default:showAll }
 funboxtest_adminPage:
     path:     /funbox/admin/
     defaults: { _controller: funboxtestBundle:Default:showAdmin }
+funboxtest_addAdminPage:
+    path:     /funbox/admin/add/
+    defaults: { _controller: funboxtestBundle:Default:addAdmin }
 funboxtest_editAdminPage:
-    path:     /funbox/admin/edit/
+    path:     /funbox/admin/edit/{id}
     defaults: { _controller: funboxtestBundle:Default:editAdmin }
+funboxtest_deleteAdminPage:
+    path:     /funbox/admin/delete/{id}
+    defaults: { _controller: funboxtestBundle:Default:deleteAdmin }
