@@ -19,6 +19,17 @@
       {{ form_start(addForm) }}
       {{ form_widget(addForm) }}
       {{ form_end(addForm) }}
+      <br><hr><br>
+      {{ form_start(removeForm) }}
+      {{ form_widget(removeForm) }}
+      {{ form_end(removeForm) }}
+      <br><hr><br>
+      <ul>
+      {% for food in editFormProducts %}
+        <li>{{food.id}}</li>
+        <li>{{food.mode}}</li>
+        <li>{{food.topping}}</li>
+      {% endfor %}
     </div>
     <script src="{{ asset('js/script.min-dist.j') }}s" type="text/javascript"></script>
     <!--[if IE 9]>
