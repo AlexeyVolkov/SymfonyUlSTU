@@ -35,10 +35,10 @@ class DefaultController extends Controller
 
         $addForm = $this->get('form.factory')->createNamedBuilder('addForm', 'form', $CatFood)
             ->add('mode', 'text')
-            ->add('topping', 'text', array('label' => 'с'))
-            ->add('description', 'textarea')
-            ->add('quantity', 'number')
-            ->add('footer', 'textarea')
+            ->add('topping', 'text', array('label' => 'Нямушка с'))
+            ->add('description', 'textarea', array('label' => 'Её преимущества'))
+            ->add('quantity', 'number', array('label' => 'Вес, кг.'))
+            ->add('footer', 'textarea', array('label' => 'Подпись внизу'))
             ->add('save', 'submit', array('label' => 'Добавить'))
             ->getForm();
     //submit

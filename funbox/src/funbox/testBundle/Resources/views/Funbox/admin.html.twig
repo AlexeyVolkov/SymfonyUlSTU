@@ -12,10 +12,11 @@
   <body>
     <div class="header">
       <h1>
-        Ты хочешь добавить еды для кота?
+        Привет, Котейка-Админ!
       </h1>
     </div>
     <div class="container">
+      <div class="admin-show">
 
       {% if type == 'add' %}
         {{ form_start(addForm) }}
@@ -37,7 +38,7 @@
       
       {% if type == 'show' %}
         <a href="{{ path('funboxtest_addAdminPage') }}">Добавить</a>
-        <table style="background-color: white;">
+        <table>
           <tr>
             <th>№</th>
             <th>Тип</th>
@@ -46,19 +47,26 @@
             <th>Количество</th>
             <th>Подпись</th>
             <th>Действия</th>
+            <th>Действия</th>
           </tr>
         {% for product in editFormProducts %}
           <tr>
-            <td><a href="{{ path('funboxtest_editAdminPage', {id: product.id}) }}">{{ product.id }}</a></td>
+            <td>{{ product.id }}</td>
             <td>{{ product.mode }}</td>
             <td>{{ product.topping }}</td>
             <td>{{ product.description }}</td>
             <td>{{ product.quantity }}</td>
             <td>{{ product.footer }}</td>
-            <td><a href="{{ path('funboxtest_editAdminPage', {id: product.id}) }}">Изменить</a> / <a href="{{ path('funboxtest_deleteAdminPage', {id: product.id}) }}">Удалить</a></td>
+            <td>
+              <a class="edit" href="{{ path('funboxtest_editAdminPage', {id: product.id}) }}">Изменить</a>
+            </td>
+            <td>
+              <a class="delete" href="{{ path('funboxtest_deleteAdminPage', {id: product.id}) }}">Удалить</a>
+            </td>
           </tr>
         {% endfor %}
       {% endif %}
+      </div>
     </div>
     <script src="{{ asset('js/script.min-dist.j') }}s" type="text/javascript"></script>
     <!--[if IE 9]>
