@@ -34,7 +34,11 @@ class DefaultController extends Controller
         $CatFood->setFooter('Курочка прекрасна!');
 
         $addForm = $this->get('form.factory')->createNamedBuilder('addForm', 'form', $CatFood)
-            ->add('mode', 'text')
+            ->add('mode', 'choice', array('label'=>'Состояние','choices'=>array(
+                    'default' => 'доступна',
+                    'selected' => 'выделена',
+                    'disabled' => 'кончилась'
+                )))
             ->add('topping', 'text', array('label' => 'Нямушка с'))
             ->add('description', 'textarea', array('label' => 'Её преимущества'))
             ->add('quantity', 'number', array('label' => 'Вес, кг.'))
@@ -62,17 +66,20 @@ class DefaultController extends Controller
 
     public function editAdminAction($id, Request $request)
     {
-
         $em = $this->getDoctrine()->getEntityManager();
         $CatFood = new CatFood();
         $CatFood = $em->getRepository('funboxtestBundle:CatFood')->find($id);
 
         $editForm = $this->get('form.factory')->createNamedBuilder('editForm', 'form', $CatFood)
-            ->add('mode', 'text')
-            ->add('topping', 'text', array('label' => 'с'))
-            ->add('description', 'textarea')
-            ->add('quantity', 'number')
-            ->add('footer', 'textarea')
+            ->add('mode', 'choice', array('label'=>'Состояние','choices'=>array(
+                    'default' => 'доступна',
+                    'selected' => 'выделена',
+                    'disabled' => 'кончилась'
+                )))
+           ->add('topping', 'text', array('label' => 'Нямушка с'))
+            ->add('description', 'textarea', array('label' => 'Её преимущества'))
+            ->add('quantity', 'number', array('label' => 'Вес, кг.'))
+            ->add('footer', 'textarea', array('label' => 'Подпись внизу'))
             ->add('save', 'submit', array('label' => 'Изменить'))
             ->getForm();
 

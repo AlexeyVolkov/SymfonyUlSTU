@@ -41,18 +41,16 @@
         <table>
           <tr>
             <th>№</th>
-            <th>Тип</th>
             <th>Наполнитель</th>
             <th>Описание</th>
             <th>Количество</th>
             <th>Подпись</th>
-            <th>Действия</th>
-            <th>Действия</th>
+            <th>Изменить</th>
+            <th>Удалить</th>
           </tr>
         {% for product in editFormProducts %}
           <tr>
             <td>{{ product.id }}</td>
-            <td>{{ product.mode }}</td>
             <td>{{ product.topping }}</td>
             <td>{{ product.description }}</td>
             <td>{{ product.quantity }}</td>
