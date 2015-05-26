@@ -90,6 +90,8 @@ class DefaultController extends Controller
 
             if($editForm->isValid()){
                 $data = $request->request->get($editForm->getName());
+                if(!is_int($data['quantity']))
+                    return new Response("'Количество' не похоже на число.");
                 $em = $this->getDoctrine()->getEntityManager();
                 $CatFood->setMode($data['mode']);
                 $CatFood->setTopping($data['topping']);

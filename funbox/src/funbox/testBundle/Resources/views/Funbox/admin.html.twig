@@ -25,9 +25,9 @@
       {% endif %}
 
       {% if type == 'edit' %}
+      {% form_theme editForm  'funboxtestBundle:Funbox:errors.html.twig' %}
         {{ form_start(editForm) }}
         {{ form_widget(editForm) }}
-        {{ form_end(editForm) }}
       {% endif %}
 
       {% if type == 'delete' %}
@@ -35,7 +35,7 @@
         {{ form_widget(deleteForm) }}
         {{ form_end(deleteForm) }}
       {% endif %}
-      
+
       {% if type == 'show' %}
         <a href="{{ path('funboxtest_addAdminPage') }}">Добавить</a>
         <table>
