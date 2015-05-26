@@ -3,6 +3,7 @@
 namespace funbox\testBundle\Controller;
 
 use funbox\testBundle\Entity\CatFood;
+use funbox\testBundle\Entity\Misc;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -141,5 +142,42 @@ class DefaultController extends Controller
             'type' => 'show',
             'editFormProducts' => $editFormProducts
             ));        
+    }
+    public function miscAdminAction(Request $request)
+    {
+        $em = $this->getDoctrine()->getEntityManager();
+        $Misc = new Misc();
+        $Misc = $em->getRepository('funboxtestBundle:Misc')->findAll();
+        $miscForm = $this->get('form.factory')->createNamedBuilder('miscForm', 'form', $Misc)
+           ->add('text', 'textarea', array('label' => 'Заголовок', 'data'=> 'ss'))
+            ->add('text', 'textarea', array('label' => 'Счётчик', 'data'=> 'ss'))
+            ->add('save', 'submit', array('label' => 'Изменить'))
+            ->getForm();
+
+    //submit
+        if($request->isMethod('POST')) {
+            $editForm->submit($request->request->get($editForm->getName()));
+
+            if($editForm->isValid()){
+                $data = $request->request->get($editForm->getName());
+                if(!is_int($data['quantity']))
+                    return new Response("'Количество' не похоже на число.");
+                $em = $this->getDoctrine()->getEntityManager();
+                $CatFood->setMode($data['mode']);
+                $CatFood->setTopping($data['topping']);
+                $CatFood->setDescription($data['description']);
+                $CatFood->setQuantity($data['quantity']);
+                $CatFood->setFooter($data['footer']);
+     
+                $em->persist($CatFood);
+                $em->flush();
+     
+                return $this->redirectToRoute('funboxtest_adminPage');
+            }
+        }
+    //render
+        return $this->render('funboxtestBundle:Funbox:admin.html.twig', array(
+            'type' => 'misc',
+            'miscForm' => $miscForm->createView()));
     }
 }

@@ -28,6 +28,7 @@
       {% form_theme editForm  'funboxtestBundle:Funbox:errors.html.twig' %}
         {{ form_start(editForm) }}
         {{ form_widget(editForm) }}
+        {{ form_end(editForm) }}
       {% endif %}
 
       {% if type == 'delete' %}

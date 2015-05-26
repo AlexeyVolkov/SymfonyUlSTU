@@ -1,12 +1,10 @@
 {% extends 'funboxtestBundle:Funbox:admin.html.twig' %}
 {% block form_errors %}
-          {% spaceless %}
             {% if errors|length > 0 %}
-              <ul class="errors" style="margin: 0;">
+              <ul>
                   {% for error in errors %}
-                    <li style="margin: 0;padding: 0;font-family: Exo, sans-serif;font-style: italic;font-size: 16px;color: red;">{{ error.message }}</li>
+                    <li>{{ error.message }}</li>
                   {% endfor %}
              </ul>
             {% endif %}
-          {% endspaceless %}
         {% endblock form_errors %}

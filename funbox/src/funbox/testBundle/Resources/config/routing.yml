@@ -13,3 +13,6 @@ funboxtest_editAdminPage:
 funboxtest_deleteAdminPage:
     path:     /funbox/admin/delete/{id}
     defaults: { _controller: funboxtestBundle:Default:deleteAdmin }
+funboxtest_miscAdminPage:
+    path:     /funbox/admin/misc/
+    defaults: { _controller: funboxtestBundle:Default:miscAdmin }
