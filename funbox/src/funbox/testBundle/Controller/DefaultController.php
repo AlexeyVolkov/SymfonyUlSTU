@@ -15,8 +15,11 @@ class DefaultController extends Controller
         $CatFood = $this->getDoctrine()
             ->getRepository('funboxtestBundle:CatFood')
             ->findAll();
+        $Misc = $this->getDoctrine()
+            ->getRepository('funboxtestBundle:Misc')
+            ->find(1);
 
-        return $this->render('funboxtestBundle:Funbox:index.html.twig', array('CatFood' => $CatFood));
+        return $this->render('funboxtestBundle:Funbox:index.html.twig', array('CatFood' => $CatFood, 'Misc' => $Misc));
 
         if(!$CatFood){
             throw $this->createNotFoundException(
@@ -147,29 +150,24 @@ class DefaultController extends Controller
     {
         $em = $this->getDoctrine()->getEntityManager();
         $Misc = new Misc();
-        $Misc = $em->getRepository('funboxtestBundle:Misc')->findAll();
+        $Misc = $em->getRepository('funboxtestBundle:Misc')->find(1);
         $miscForm = $this->get('form.factory')->createNamedBuilder('miscForm', 'form', $Misc)
-           ->add('text', 'textarea', array('label' => 'Заголовок', 'data'=> 'ss'))
-            ->add('text', 'textarea', array('label' => 'Счётчик', 'data'=> 'ss'))
+           ->add('h1', 'text', array('label' => 'Заголовок'))
+            ->add('footer', 'textarea', array('label' => 'Код счётчика'))
             ->add('save', 'submit', array('label' => 'Изменить'))
             ->getForm();
 
     //submit
         if($request->isMethod('POST')) {
-            $editForm->submit($request->request->get($editForm->getName()));
+            $miscForm->submit($request->request->get($miscForm->getName()));
 
-            if($editForm->isValid()){
-                $data = $request->request->get($editForm->getName());
-                if(!is_int($data['quantity']))
-                    return new Response("'Количество' не похоже на число.");
+            if($miscForm->isValid()){
+                $data = $request->request->get($miscForm->getName());
                 $em = $this->getDoctrine()->getEntityManager();
-                $CatFood->setMode($data['mode']);
-                $CatFood->setTopping($data['topping']);
-                $CatFood->setDescription($data['description']);
-                $CatFood->setQuantity($data['quantity']);
-                $CatFood->setFooter($data['footer']);
+                $Misc->setH1($data['h1']);
+                $Misc->setFooter($data['footer']);
      
-                $em->persist($CatFood);
+                $em->persist($Misc);
                 $em->flush();
      
                 return $this->redirectToRoute('funboxtest_adminPage');

@@ -22,43 +22,62 @@ class Misc
     private $id;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="h1", type="string")
+     */
+    private $h1;
+
+    /**
      * @var text
      *
-     * @ORM\Column(name="text", type="text")
+     * @ORM\Column(name="footer", type="text")
      */
-    private $text;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $footer;
 
     /**
-     * Set text
+     * Set h1
      *
-     * @param text $text
-     * @return CatFood
+     * @param text $h1
+     * @return Misc
      */
-    public function setText($text)
+    public function setH1($h1)
     {
-        $this->text = $text;
+        $this->h1 = $h1;
 
         return $this;
     }
 
     /**
-     * Get text
+     * Get h1
      *
-     * @return text 
+     * @return string 
      */
-    public function getText()
+    public function getH1()
     {
-        return $this->text;
+        return $this->h1;
+    }
+
+    /**
+     * Set text
+     *
+     * @param text $footer
+     * @return Misc
+     */
+    public function setFooter($footer)
+    {
+        $this->footer = $footer;
+
+        return $this;
+    }
+
+    /**
+     * Get footer
+     *
+     * @return text
+     */
+    public function getFooter()
+    {
+        return $this->footer;
     }
 }

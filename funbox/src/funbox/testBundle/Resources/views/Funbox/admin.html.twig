@@ -37,6 +37,12 @@
         {{ form_end(deleteForm) }}
       {% endif %}
 
+      {% if type == 'misc' %}
+        {{ form_start(miscForm) }}
+        {{ form_widget(miscForm) }}
+        {{ form_end(miscForm) }}
+      {% endif %}
+
       {% if type == 'show' %}
         <a href="{{ path('funboxtest_addAdminPage') }}">Добавить</a>
         <table>
@@ -64,6 +70,8 @@
             </td>
           </tr>
         {% endfor %}
+        </table>
+        <a href="{{ path('funboxtest_miscAdminPage') }}">Прочее</a>
       {% endif %}
       </div>
     </div>
