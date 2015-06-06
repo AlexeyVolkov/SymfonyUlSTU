@@ -179,10 +179,8 @@ class DefaultController extends Controller
             'miscForm' => $miscForm->createView()));
     }
 
-    public function searchResultsAction($q){
-        $sphinx = $this->get('iakumai.sphinxsearch.search');
-        echo "<pre>";
-        print_r($sphinx->search($q, array('topping')));
-        die();
+    public function searchResultsAction(Request $request){
+         $searchd = $this->get('iakumai.sphinxsearch.search');
+    return $searchd->search($request->query->get('q', ''), array('Topping'));
     }
 }

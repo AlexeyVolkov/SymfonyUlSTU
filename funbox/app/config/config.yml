@@ -75,9 +75,9 @@ swiftmailer:
 sphinxsearch:
     searchd:
         # Host name for your Sphinx daemon
-        host: localhost
+        host: 127.0.0.1
         # Port number for your Sphinx daemon
-        port: 9312
+        port: 3306
     indexes:
         # List of sphinx index names (key) and entity names (value)
         # to use it in searchEx() method

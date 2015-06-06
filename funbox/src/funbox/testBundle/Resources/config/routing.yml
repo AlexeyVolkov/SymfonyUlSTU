@@ -17,5 +17,5 @@ funboxtest_miscAdminPage:
     path:     /funbox/admin/misc/
     defaults: { _controller: funboxtestBundle:Default:miscAdmin }
 funboxtest_searchResultsPage:
-    path:     /funbox/search/{q}
+    path:     /funbox/search/
     defaults: { _controller: funboxtestBundle:Default:searchResults }
