@@ -58,5 +58,8 @@
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
         }
+    },
+    "require": {
+        "iakumai/sphinxsearch-bundle": "dev-master"
     }
 }

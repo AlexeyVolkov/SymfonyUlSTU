@@ -16,3 +16,6 @@ funboxtest_deleteAdminPage:
 funboxtest_miscAdminPage:
     path:     /funbox/admin/misc/
     defaults: { _controller: funboxtestBundle:Default:miscAdmin }
+funboxtest_searchResultsPage:
+    path:     /funbox/search/{q}
+    defaults: { _controller: funboxtestBundle:Default:searchResults }

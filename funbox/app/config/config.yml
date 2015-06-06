@@ -71,3 +71,14 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+sphinxsearch:
+    searchd:
+        # Host name for your Sphinx daemon
+        host: localhost
+        # Port number for your Sphinx daemon
+        port: 9312
+    indexes:
+        # List of sphinx index names (key) and entity names (value)
+        # to use it in searchEx() method
+        IndexName: "funboxtestBundle:CatFood"
