@@ -15,6 +15,23 @@
         {{ Misc.h1 }}
       </h1>
     </div>
+
+
+
+    <div class="search-box">
+      {{ form_start(sortForm) }}
+      <label for="{{sortForm.topping.vars.id}}">Намушка с</label>
+      {{ form_widget(sortForm.topping) }}
+      {{ form_widget(sortForm.quantity) }}
+      {{ form_widget(sortForm.quantityInput) }}
+      кг.
+      {{ form_widget(sortForm.sort) }}
+      {{ form_end(sortForm) }}
+      
+    </div>
+
+
+
     <div class="container">
     {% for product in CatFood %}
       <div class="shelf {{product.mode}}">

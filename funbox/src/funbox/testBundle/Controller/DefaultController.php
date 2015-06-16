@@ -10,16 +10,67 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class DefaultController extends Controller
 {
-    public function indexAction()
+    public function indexAction(Request $request)
     {
-        $CatFood = $this->getDoctrine()
-            ->getRepository('funboxtestBundle:CatFood')
-            ->findAll();
         $Misc = $this->getDoctrine()
             ->getRepository('funboxtestBundle:Misc')
             ->find(1);
 
-        return $this->render('funboxtestBundle:Funbox:index.html.twig', array('CatFood' => $CatFood, 'Misc' => $Misc));
+        $defaultData = array('message' => 'Type your message here');
+        $sortForm = $this->get('form.factory')->createNamedBuilder('sortForm', 'form', $defaultData)
+            ->add('topping', 'text', array('required' => false))
+            ->add('quantity', 'choice', array('choices'=>array(
+                    'more' => 'Больше',
+                    'less' => 'Меньше'
+                )))
+            ->add('quantityInput', 'number',array('required' => false))
+            ->add('sort', 'submit', array('label' => 'Фильтровать'))
+            ->getForm();
+        //submit
+        if($request->isMethod('POST')) {
+        // sort
+            $sortForm->submit($request->request->get($sortForm->getName()));
+
+            if($sortForm->isValid()){
+
+                $comparison['more'] = '>';
+                $comparison['less'] = '<';
+
+                $data = $request->request->get($sortForm->getName());
+                $repo = $this->getDoctrine()->getRepository('funboxtestBundle:CatFood');
+            //create vars
+                $queryWhere = 'CatFood.mode = :default';
+                $queryParamets = array('default' => 'default');
+                if($data['topping'] != null){
+                    $queryWhere .= ' AND CatFood.topping LIKE :topping';
+                    $queryParamets['topping'] = '%'.$data['topping'].'%';
+                }
+                if($data['quantityInput'] != null){
+                    $queryWhere .= ' AND CatFood.quantity '.$comparison[$data['quantity']].' :quantityInput';
+                    $queryParamets['quantityInput'] = $data['quantityInput'];
+                }
+            //send query
+                $query = $repo->createQueryBuilder('CatFood')
+                    ->where($queryWhere)
+                    ->setParameters($queryParamets)
+                    ->orderBy('CatFood.quantity', 'DESC')
+                    ->getQuery();
+
+                $CatFood = $query->getResult();
+            }
+        }
+        else{
+            $CatFood = $this->getDoctrine()
+                ->getRepository('funboxtestBundle:CatFood')
+                ->findAll();
+        }
+
+
+
+        return $this->render('funboxtestBundle:Funbox:index.html.twig', array(
+            'CatFood' => $CatFood, 
+            'Misc' => $Misc, 
+            'sortForm' => $sortForm->createView()));
 
         if(!$CatFood){
             throw $this->createNotFoundException(
@@ -180,7 +231,11 @@ class DefaultController extends Controller
     }
 
     public function searchResultsAction(Request $request){
-         $searchd = $this->get('iakumai.sphinxsearch.search');
-    return $searchd->search($request->query->get('q', ''), array('Topping'));
+        $fm = $this->get('padam87_search.filter.manager');
+        $data = array(
+            'topping' => 'рыб*'
+        );
+        $filter = new Filter($data, 'funboxtestBundle:CatFood', 'alias');
+        $qb = $fm->createQueryBuilder($filter);
     }
 }
