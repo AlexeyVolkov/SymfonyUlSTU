@@ -20,11 +20,11 @@ class DefaultController extends Controller
         $sortForm = $this->get('form.factory')->createNamedBuilder('sortForm', 'form', $defaultData)
             ->add('topping', 'text', array('required' => false))
             ->add('quantity', 'choice', array('choices'=>array(
-                    'more' => 'Больше',
-                    'less' => 'Меньше'
+                    'more' => 'больше',
+                    'less' => 'меньше'
                 )))
             ->add('quantityInput', 'number',array('required' => false))
-            ->add('sort', 'submit', array('label' => 'Фильтровать'))
+            ->add('sort', 'submit', array('label' => 'найти'))
             ->getForm();
         //submit
         if($request->isMethod('POST')) {

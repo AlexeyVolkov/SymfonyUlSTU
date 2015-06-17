@@ -20,8 +20,9 @@
 
     <div class="search-box">
       {{ form_start(sortForm) }}
-      <label for="{{sortForm.topping.vars.id}}">Намушка с</label>
+      <label for="{{sortForm.topping.vars.id}}">Намушки с</label>
       {{ form_widget(sortForm.topping) }}
+      , где
       {{ form_widget(sortForm.quantity) }}
       {{ form_widget(sortForm.quantityInput) }}
       кг.
